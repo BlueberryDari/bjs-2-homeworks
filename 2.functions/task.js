@@ -53,7 +53,7 @@ function differenceMaxMinWorker(...arr) {
   if(arr.length == 0) {
     return 0;
   }
-   return max - Math.abs(min);
+   return max - min;
 }
 console.log(differenceMaxMinWorker(9,6,2,-7,5,10));
 
