@@ -55,7 +55,7 @@ function differenceMaxMinWorker(...arr) {
   }
    return max - min;
 }
-console.log(differenceMaxMinWorker(100,60,-99,-120,5,25));
+console.log(differenceMaxMinWorker(-100,0,-50,-20,-5,-25));
 
 function differenceEvenOddWorker(...arr) {
 
