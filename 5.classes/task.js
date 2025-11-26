@@ -100,27 +100,38 @@ class Library {
 
 		for (let book of this.books) {
 			if (book[type] === value) {
-				return this.books[this.books.indexOf(book)];
+				return book;
+			} 
+		} 
+		return null;
+		}
+
+		/*for (let i = 0; i < this.books.length; i++){
+			if(this.books[i].type !== value || undefined){
+				return null;
 			}
 		}
-		return null;
-	}
+		return this.books[i];
+	}*/
 
 
 
 
 	giveBookByName(bookName) {
-		// возвращает номер book в books, если есть bookName, если нет -1
+		// ищи книгу по названию, не нашел - верни null
 
-		const index = this.findBookBy("name", bookName);
-		// если книги нет, верни null
-		if (index === -1) {
+		const foundBookbyName = this.findBookBy("name", bookName);
+		if (!foundBookbyName) {
 			return null;
 		}
+		// ищем индекс книги, если нашли, то убираем книгу из списка (объекта)
+		const index = this.books.indexOf(foundBookbyName);
+		if (index !== -1) {
+		  this.books.splice(index, 1);
+		}
 
-		const book = this.books[index];
-		this.books.splice(index, 1);
-		return book;
+				
+		return foundBookbyName;
 	}
 }
 const library = new Library("Библиотека имени Ленина");
