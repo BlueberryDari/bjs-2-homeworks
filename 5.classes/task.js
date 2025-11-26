@@ -41,7 +41,7 @@ class Magazine extends PrintEditionItem {
 }
 class Book extends PrintEditionItem {
 	constructor(author, name, releaseDate, pagesCount) {
-		super(author, name, releaseDate, pagesCount);
+		super(name, releaseDate, pagesCount);
 		this.author = author;
 		this.type = "book"
 	}
@@ -100,7 +100,7 @@ class Library {
 
 		for (let book of this.books) {
 			if (book[type] === value) {
-				return book;
+				return book[type];
 			}
 		}
 		return null;
@@ -112,7 +112,7 @@ class Library {
 	giveBookByName(bookName) {
 		// возвращает номер book в books, если есть bookName, если нет -1
 
-		const index = library.findBookBy("name", bookName);
+		const index = this.findBookBy("name", bookName);
 		// если книги нет, верни null
 		if (index === -1) {
 			return null;
