@@ -100,7 +100,7 @@ class Library {
 
 		for (let book of this.books) {
 			if (book[type] === value) {
-				return book[type];
+				return this.books[this.books.indexOf(book)];
 			}
 		}
 		return null;
