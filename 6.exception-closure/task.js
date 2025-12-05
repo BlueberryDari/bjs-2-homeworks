@@ -26,7 +26,7 @@ class Triangle {
 		this.b = b;
 		this.c = c;
 		if (a + b <= c || a + c <= b || b + c <= a) {
-			throw new Error("«Треугольник с такими сторонами не существует»");
+			throw new Error("Треугольник с такими сторонами не существует");
 			//console.log('Triangle check -> ' + a +'+' + b + '=' + (a+b) +  '   ' + a +'+' + c + '=' + (a+c) + '  ' + c +'+' + b + '=' + (b+c));
 		}
 	}
