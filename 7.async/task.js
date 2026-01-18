@@ -13,14 +13,10 @@ class AlarmClock {
 		/*setTimeout(func, time) {
 
 		}*/
-		if (this.alarmCollection.length !== 0) {
-			for (let i of this.alarmCollection) { // есть ли звонок с таким же временем
-				if (this.alarmCollection[i - 1].time === time) {
-					console.warn('Уже присутствует звонок на это же время');
-					//если уже есть с таким временем, выведи предупреждение
-				}
-			}
-		}
+		if (this.alarmCollection.some(alarm => alarm.time === time)) {
+			console.warn('Уже присутствует звонок на это же время');
+		  //если уже есть с таким временем, выведи предупреждение
+		  }
 
 
 		this.alarmCollection.push({ //добавляем в массив звонков объект
@@ -31,55 +27,58 @@ class AlarmClock {
 
 	}
 
-	removeClock(time) { //?
+	removeClock(time) { 
 
-		this.alarmCollection = this.alarmCollection.filter(function(alarm) { //создаёт новый массив только с отфильтрованными эл-ми
-			time !== alarm.time;
-		});
-		/*for (let i of this.alarmCollection){
-        if (this.alarmCollection[i] === time) {
-          delete this.alarmCollection[i];
-        }
-    }*/
+		this.alarmCollection = this.alarmCollection.filter(alarm => alarm.time !== time);
+	// таким образом filter создаём новый массив alarmCollection вместо старого только с отфильтр эл-ми
 	}
 
 	getCurrentFormattedTime() {
-		let currentDate = new Date;
-		let hour = currentDate.getHours();
-		if (hour < 0) {
-			hour = "0" + hour;
-		}
-		let minute = currentDate.getMinutes();
-		if (minute < 0) {
-			minute = "0" + minute;
-		}
-		return (hour + ":" + minute);
+		let currentDate = new Date();
+		//создали объект даты со своими методами, в том числе toLocaleTimeString
+		return currentDate.toLocaleTimeString("ru-Ru", {
+			hour: "2-digit",
+			minute: "2-digit",
+		});
+		
 	}
 
 	start() {
-		if (intervalId !== null) {
-			return this.intervalId;
+		if (this.intervalId !== null) {
+			return;
 		}
 
-		this.intervalId = setInterval((
-			this.alarmCollection.forEach(function(alarm) { //не возвращает новый массив, не редактирует исходный
+		this.intervalId = setInterval(() => {
+			const currentTime = this.getCurrentFormattedTime();
+			this.alarmCollection.forEach(alarm => {
+				if (alarm.time === currentTime && alarm.canCall) {
+				  alarm.canCall = false;
+				  alarm.callback();
+				}
+			  });
+		}, 1000);
+	}
+
+			/*this.alarmCollection.forEach(function(alarm) { //не возвращает новый массив, не редактирует исходный
 				if (alarm.time === this.getCurrentFormattedTime() && alarm.canCall === true) {
 					alarm.canCall = false;
 					alarm.callback();
 				}
 			})
 		), 1000);
-	}
+	} */
 
 
 	stop() {
-		clearInterval(this.intervalId);
-		this.intervalId = null;
+		if (this.intervalId !== null) {
+          clearInterval(this.intervalId);
+		  this.intervalId = null;
+		}
 	}
 
 
 	resetAllCalls() {
-		this.alarmCollection.forEach(function(alarm) {
+		this.alarmCollection.forEach(alarm => {
 			alarm.canCall = true;
 		});
 	}
